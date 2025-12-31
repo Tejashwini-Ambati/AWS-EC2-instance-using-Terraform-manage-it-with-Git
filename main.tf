@@ -2,6 +2,14 @@ provider "aws" {
   region = "us-east-1"
 }
 
+backend "s3" {
+    bucket         = "sai-terraform-remote-state"
+    key            = "dev/terraform.tfstate"
+    region         = "us-east-1"
+    dynamodb_table = "terraform-state-lock"
+    encrypt        = true
+  }
+
 resource "aws_instance" "my_ec2" {
   ami           = "ami-0360c520857e3138f"   # Amazon Linux 2 AMI (update per region)
   instance_type = "t2.micro"
